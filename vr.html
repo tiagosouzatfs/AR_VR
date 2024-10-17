@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cena de VR</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-physics-system@3.5.0/dist/aframe-physics-system.min.js"></script>
+</head>
+<body>
+    <a-scene physics>
+      
+        <!-- Iluminação -->
+        <a-light type="ambient" color="#ffffff"></a-light>
+        <a-light type="directional" color="#ffffff" position="1 1 1"></a-light>
+
+        <!-- Cubos -->
+        <!-- Barreira 1 -->
+        <a-box position="-2 0.5 -4" color="#FF4500" static-body></a-box>
+        <a-box position="2 0.5 -4" color="#FFA500" static-body></a-box>
+        
+        <!-- Barreira 2 -->
+        <a-box position="-2 0.5 -8" color="#D2691E" static-body></a-box>
+        <a-box position="-1 0.5 -8" color="#F4A460" static-body></a-box>
+        <a-box position="0 0.5 -8" color="#FFDEAD" static-body></a-box>
+      
+        <!-- Barreira 3 -->
+        <a-box position="0 0.5 -12" color="#C71585" static-body></a-box>
+        <a-box position="1 0.5 -12" color="#FF1493" static-body></a-box>
+        <a-box position="2 0.5 -12" color="#FF69B4" static-body></a-box>
+      
+        <!-- Barreira 4 -->
+        <a-box position="-2 0.5 -16" color="#B22222" static-body></a-box>
+        <a-box position="-1 0.5 -16" color="#A52A2A" static-body></a-box>
+        <a-box position="0 0.5 -16" color="#FA8072" static-body></a-box>
+      
+        <!-- Barreira 5 -->
+        <a-box position="0 0.5 -20" color="#FFD700" static-body></a-box>
+        <a-box position="1 0.5 -20" color="#FFFF00" static-body></a-box>
+        <a-box position="2 0.5 -20" color="#F0E68C" static-body></a-box>
+        
+        <!-- Pato -->
+        <a-entity gltf-model="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/refs/heads/main/2.0/Duck/glTF/Duck.gltf" 
+        id="duck" scale="0.5 0.5 0.5" position="0 0 -1" rotation="0 90 0"></a-entity>
+      
+        <!-- Família do Pato -->
+        <a-entity gltf-model="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/refs/heads/main/2.0/Duck/glTF/Duck.gltf" 
+        scale="0.1 0.1 0.1" position="-2 0 -28" rotation="0 -80 0"></a-entity>
+        <a-entity gltf-model="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/refs/heads/main/2.0/Duck/glTF/Duck.gltf" 
+        scale="0.2 0.2 0.2" position="-1 0 -27" rotation="0 -70 0"></a-entity>
+        <a-entity gltf-model="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/refs/heads/main/2.0/Duck/glTF/Duck.gltf" 
+        scale="0.3 0.3 0.3" position="0 0 -26" rotation="0 -110 0"></a-entity>
+        <a-entity gltf-model="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/refs/heads/main/2.0/Duck/glTF/Duck.gltf" 
+        scale="0.4 0.4 0.4" position="1 0 -28" rotation="0 -120 0"></a-entity>
+        <a-entity gltf-model="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/refs/heads/main/2.0/Duck/glTF/Duck.gltf" 
+        scale="0.5 0.5 0.5" position="2 0 -27" rotation="0 -100 0"></a-entity>
+      
+        <!-- Chão -->
+        <a-plane
+          position="0 0 -13"
+          rotation="-90 0 0"
+          width="5"
+          height="26"
+          color="#0000FF"
+          static-body
+        ></a-plane>
+      
+        <!-- Linha de chegada -->
+        <a-plane
+          position="0 0 -27"
+          rotation="-90 0 0"
+          width="5"
+          height="3"
+          color="#FF0000"
+          static-body
+        ></a-plane>
+      
+        <!-- Cor do céu -->
+        <a-sky color="#87CEEB"></a-sky>
+
+        <!-- Câmera -->
+        <a-entity camera id="cam" look-controls position="0 5 0"></a-entity>
+    </a-scene>
+
+    <script>
+        // Movimentação do pato e da câmera com o teclado
+        const duck = document.getElementById('duck');
+        const cam = document.getElementById('cam');
+        document.addEventListener('keydown', function (event) {
+            const position = duck.getAttribute('position');
+            switch(event.key) {
+                case 'ArrowUp':
+                    duck.setAttribute('position', {x: position.x, y: position.y, z: position.z - 0.1});
+                    cam.setAttribute('position', {x: position.x, y: position.y+0.9, z: position.z - 0.1});
+                    break;
+                case 'ArrowDown':
+                    duck.setAttribute('position', {x: position.x, y: position.y, z: position.z + 0.1});
+                    cam.setAttribute('position', {x: position.x, y: position.y+1, z: position.z + 0.1});
+                    break;
+                case 'ArrowLeft':
+                    duck.setAttribute('position', {x: position.x - 0.1, y: position.y, z: position.z});
+                    cam.setAttribute('position', {x: position.x - 0.1, y: position.y+1, z: position.z});
+                    break;
+                case 'ArrowRight':
+                    duck.setAttribute('position', {x: position.x + 0.1, y: position.y, z: position.z});
+                    cam.setAttribute('position', {x: position.x + 0.1, y: position.y+1, z: position.z});
+                    break;
+            }
+        });
+    </script>
+</body>
+</html>
